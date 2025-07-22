@@ -2,17 +2,34 @@
 
 namespace App\Controller;
 
+
+use App\Repository\ProfessorUserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 final class ProfessorsController extends AbstractController
 {
     #[Route('/professors', name: 'app_professors')]
-    public function index(): Response
-    {
+    public function index(
+        ProfessorUserRepository $profRepo,
+        PaginatorInterface $paginator,
+        Request $request
+    ): Response {
+        $query = $profRepo->createQueryBuilder('p')
+            ->orderBy('p.name', 'ASC')
+            ->getQuery();
+
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            8
+        );
+
         return $this->render('professors/index.html.twig', [
-            'controller_name' => 'ProfessorsController',
+            'pagination' => $pagination,
         ]);
     }
 }
