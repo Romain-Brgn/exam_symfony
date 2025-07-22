@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Connexion
+{% endblock %}
+
+{% block body %}
+  <div style="max-width:400px; margin:80px auto; padding:32px; background:#fff; border:1px solid #e5e7eb; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05); font-family:Arial, sans-serif;">
+    <h2 style="text-align:center; color:#FF8C42; margin-bottom:24px; font-size:1.5rem; font-weight:600;">Connexion</h2>
+
+    {% if error %}
+      <div style="background-color:#ffe5e0; color:#cc0000; padding:12px; border-radius:6px; margin-bottom:20px; text-align:center;">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+      <div style="margin-bottom:20px; text-align:center;">
+        Connecté en tant que {{ app.user.userIdentifier }}.
+        <a href="{{ path('app_logout') }}" style="color:#FF8C42; text-decoration:underline;">Déconnexion</a>
+      </div>
+    {% endif %}
+
+    <form method="post" action="{{ path('app_login') }}">
+      <div style="margin-bottom:16px;">
+        <label for="username" style="display:block; margin-bottom:6px; color:#374151; font-weight:500;">Email</label>
+        <input type="email" value="{{ last_username }}" name="_username" id="username" required autofocus style="width:100%; padding:10px 12px; border:1px solid #ccc; border-radius:6px; font-size:1rem;" />
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <label for="password" style="display:block; margin-bottom:6px; color:#374151; font-weight:500;">Mot de passe</label>
+        <input type="password" name="_password" id="password" required style="width:100%; padding:10px 12px; border:1px solid #ccc; border-radius:6px; font-size:1rem;" />
+      </div>
+
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+
+      <button type="submit" style="width:100%; background-color:#FF8C42; color:white; padding:10px; border:none; border-radius:6px; font-weight:600; font-size:1rem; cursor:pointer;">Se connecter</button>
+    </form>
+  </div>
+{% endblock %}

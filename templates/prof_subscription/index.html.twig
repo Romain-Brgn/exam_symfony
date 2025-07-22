@@ -1,0 +1,81 @@
+{% block body %}
+  <div style="min-height:100vh; display:flex; justify-content:center; align-items:center; background-color:#f3f3f3; padding:40px 16px; font-family:'Inter', sans-serif;">
+    <div style="width:100%; max-width:860px; background:white; border-radius:16px; padding:40px; box-shadow:0 10px 30px rgba(0,0,0,0.1);">
+      <h1 style="font-size:2rem; text-align:center; color:#111827; margin-bottom:32px; font-weight:600;">Inscription Professeur</h1>
+
+      {{ form_start(form) }}
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
+        <div>
+          <label style="display:block; margin-bottom:4px; color:#374151;">Prénom</label>
+          {{ form_widget(form.firstname, { attr: { style: 'width:100%; padding:10px; border:1px solid #ccc; border-radius:8px;' } }) }}
+          {{ form_errors(form.firstname) }}
+        </div>
+
+        <div>
+          <label style="display:block; margin-bottom:4px; color:#374151;">Nom</label>
+          {{ form_widget(form.name, { attr: { style: 'width:100%; padding:10px; border:1px solid #ccc; border-radius:8px;' } }) }}
+          {{ form_errors(form.name) }}
+        </div>
+
+        <div>
+          <label style="display:block; margin-bottom:4px; color:#374151;">Adresse email</label>
+          {{ form_widget(form.email, { attr: { style: 'width:100%; padding:10px; border:1px solid #ccc; border-radius:8px;' } }) }}
+          {{ form_errors(form.email) }}
+        </div>
+
+        <div>
+          <label style="display:block; margin-bottom:4px; color:#374151;">Mot de passe</label>
+          {{ form_widget(form.password, { attr: { style: 'width:100%; padding:10px; border:1px solid #ccc; border-radius:8px;' } }) }}
+          {{ form_errors(form.password) }}
+        </div>
+
+        <div>
+          <label style="display:block; margin-bottom:4px; color:#374151;">Téléphone</label>
+          {{ form_widget(form.phone, { attr: { style: 'width:100%; padding:10px; border:1px solid #ccc; border-radius:8px;' } }) }}
+          {{ form_errors(form.phone) }}
+        </div>
+
+        <div>
+          <label style="display:block; margin-bottom:4px; color:#374151;">Numéro SIRET</label>
+          {{ form_widget(form.company_identification_number, { attr: { style: 'width:100%; padding:10px; border:1px solid #ccc; border-radius:8px;' } }) }}
+          {{ form_errors(form.company_identification_number) }}
+        </div>
+
+        <div style="grid-column:1 / -1;">
+          <label style="display:block; margin-bottom:4px; color:#374151;">Adresse</label>
+          {{ form_widget(form.adress, { attr: { style: 'width:100%; padding:10px; border:1px solid #ccc; border-radius:8px;' } }) }}
+          {{ form_errors(form.adress) }}
+        </div>
+
+        <div style="grid-column:1 / -1;">
+          <label style="display:block; margin-bottom:4px; color:#374151;">Ville</label>
+          {{ form_widget(form.city, { attr: { style: 'width:100%; padding:10px; border:1px solid #ccc; border-radius:8px;' } }) }}
+          {{ form_errors(form.city) }}
+        </div>
+
+        <div style="grid-column:1 / -1;">
+          <label style="display:block; margin-bottom:4px; color:#374151;">URL de votre photo de profil</label>
+          {{ form_widget(form.profile_picture, { attr: { style: 'width:100%; padding:10px; border:1px solid #ccc; border-radius:8px;' } }) }}
+          {{ form_errors(form.profile_picture) }}
+        </div>
+
+        <div style="grid-column:1 / -1;">
+          <label style="display:block; margin-bottom:4px; color:#374151;">Présentation</label>
+          {{ form_widget(form.presentation, { attr: { style: 'width:100%; padding:10px; border:1px solid #ccc; border-radius:8px; resize:vertical;' } }) }}
+          {{ form_errors(form.presentation) }}
+        </div>
+
+        <div style="grid-column:1 / -1;">
+          <label style="display:block; margin-bottom:4px; color:#374151;">Vous êtes</label>
+          <div style="display:flex; flex-wrap:wrap; gap:8px;">{{ form_widget(form.roles) }}</div>
+          {{ form_errors(form.roles) }}
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-top:32px;">{{ form_widget(form.Souscrire, { attr: { style: 'background-color:#FF8C42; color:white; padding:12px 24px; border:none; border-radius:8px; font-weight:600; font-size:1rem; cursor:pointer; transition:background-color 0.3s ease;', onmouseover: "this.style.backgroundColor='#e6762e'", onmouseout: "this.style.backgroundColor='#FF8C42'" } }) }}</div>
+
+      {{ form_end(form) }}
+    </div>
+  </div>
+{% endblock %}

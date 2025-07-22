@@ -1,17 +1,71 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+  <head>
+    <meta charset="UTF-8" />
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <title>
+      {% block title %}
+        Welcome!
+      {% endblock %}
+    </title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>" />
+    {% block stylesheets %}
+      <link rel="stylesheet" href="{{ asset('styles/app.css') }}" />
+    {% endblock %}
+
+    {% block javascripts %}
+      {% block importmap %}
+        {{ importmap('app') }}
+      {% endblock %}
+    {% endblock %}
+  </head>
+  <body>
+    <nav style="background-color: #FF8C42; color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); font-family: 'Inter', sans-serif;">
+      <div style="max-width: 1120px; margin: auto; padding: 0 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; height: 64px;">
+          <!-- Logo + Liens -->
+          <div style="display: flex; align-items: center; gap: 40px;">
+            <a href="{{ path('app_index') }}" style="font-size: 1.5rem; font-weight: 600; text-decoration: none; color: white;">Witopi</a>
+            <div style="display: flex; gap: 24px;">
+              <a href="{{ path('app_index') }}" style="padding: 8px 12px; border-radius: 6px; font-size: 0.875rem; font-weight: 500; text-decoration: none; color: white;">Accueil</a>
+              <a href="{{ path('app_about') }}" style="padding: 8px 12px; border-radius: 6px; font-size: 0.875rem; font-weight: 500; text-decoration: none; color: white;">À propos</a>
+              <a href="{{ path('app_activities') }}" style="padding: 8px 12px; border-radius: 6px; font-size: 0.875rem; font-weight: 500; text-decoration: none; color: white;">Activités</a>
+              <a href="{{ path('app_professors') }}" style="padding: 8px 12px; border-radius: 6px; font-size: 0.875rem; font-weight: 500; text-decoration: none; color: white;">Professeurs</a>
+            </div>
+          </div>
+
+          <!-- Connexion / Déconnexion -->
+          <div style="display: flex; gap: 16px; align-items: center;">
+            {% if app.user %}
+              <a href="{{ path('app_logout') }}" style="background-color: white; color: #FF8C42; padding: 8px 16px; border-radius: 6px; font-weight: 600; text-decoration: none;">Déconnexion</a>
+            {% else %}
+              <a href="{{ path('app_login') }}" style="background-color: white; color: #FF8C42; padding: 8px 16px; border-radius: 6px; font-weight: 600; text-decoration: none;">Connexion</a>
+              <a href="{{ path('app_prof_subscription') }}" style="padding: 8px 12px; border-radius: 6px; font-size: 0.875rem; font-weight: 500; text-decoration: none; color: white;">Inscription</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    {# MESSAGESFLASH #}
+    {% for label, messages in app.flashes %}
+      {% for message in messages %}
+        <div class="max-w-2xl mx-auto my-4 px-4 py-3 rounded-lg shadow-md
+            {% if label == 'success' %}
+
+          {% elseif label == 'error' %}
+
+          {% elseif label == 'warning' %}
+
+          {% endif %}
+        ">{{ message }}</div>
+      {% endfor %}
+    {% endfor %}
+
+    {% block body %}
+
+    {% endblock %}
+  </body>
 </html>
