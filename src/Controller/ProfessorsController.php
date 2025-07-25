@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\ProfessorUser;
 use App\Repository\ProfessorUserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +31,14 @@ final class ProfessorsController extends AbstractController
 
         return $this->render('professors/index.html.twig', [
             'pagination' => $pagination,
+        ]);
+    }
+
+    #[Route('/professors/{id}', name: 'app_professors_show')]
+    public function show(ProfessorUser $prof): Response
+    {
+        return $this->render('professors/show.html.twig', [
+            'professorUser' => $prof,
         ]);
     }
 }

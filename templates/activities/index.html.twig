@@ -1,20 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ActivitiesController!{% endblock %}
+{% block title %}
+  Liste des activités
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+  <h1 style="text-align: center; margin: 30px 0;">Nos Activités proposées</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+    {% for activity in activities %}
+      <div style="
+                background-color: #fff;
+                border-radius: 12px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                overflow: hidden;
+                width: 300px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            ">
+        {% if activity.imageUrl %}
+          <img src="{{ activity.imageUrl }}" alt="{{ activity.title }}" style="width: 100%; height: 180px; object-fit: cover;" />
+        {% endif %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/miam/Desktop/witopi_project/src/Controller/ActivitiesController.php</code></li>
-        <li>Your template at <code>C:/Users/miam/Desktop/witopi_project/templates/activities/index.html.twig</code></li>
-    </ul>
-</div>
+        <div style="padding: 16px;">
+          <h2 style="font-size: 20px; margin: 0 0 10px;">{{ activity.title }}</h2>
+          <p style="margin: 0 0 10px; color: #555;">{{ activity.location }}</p>
+
+          {% if activity.startTime and activity.endTime %}
+            <p style="font-size: 14px; color: #777;">{{ activity.startTime|date('d/m/Y H:i') }} - {{ activity.endTime|date('H:i') }}</p>
+          {% endif %}
+
+          <p style="font-weight: bold; margin: 10px 0;">
+            {% if activity.discountedPrice %}
+              <span style="color: #FF8C42;">{{ activity.discountedPrice|number_format(2, '.', ' ') }} €</span>
+              <span style="text-decoration: line-through; color: #999; font-size: 14px;">{{ activity.fullcost|number_format(2, '.', ' ') }} €</span>
+            {% else %}
+              <span style="color: #333;">{{ activity.fullcost|number_format(2, '.', ' ') }} €</span>
+            {% endif %}
+          </p>
+
+          {% if activity.outside %}
+            <span style="background-color: #e0f7fa; color: #00796b; padding: 4px 8px; border-radius: 6px; font-size: 12px;">En extérieur</span>
+          {% elseif activity.homeBased %}
+            <span style="background-color: #fff3e0; color: #ef6c00; padding: 4px 8px; border-radius: 6px; font-size: 12px;">À domicile</span>
+          {% endif %}
+        </div>
+
+        <div style="padding: 0 16px 16px;">
+          <a href="{{ path('app_activities_show', { id: activity.id }) }}" style="display: inline-block; text-align: center; width: 100%; background-color: #FF8C42; color: white; padding: 10px; border-radius: 8px; text-decoration: none;">Voir les détails</a>
+        </div>
+      </div>
+    {% else %}
+      <p>Aucune activité trouvée.</p>
+    {% endfor %}
+  </div>
 {% endblock %}

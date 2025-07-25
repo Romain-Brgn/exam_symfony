@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  {{ activity.title }}
+{% endblock %}
+
+{% block body %}
+  <div style="max-width: 800px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+    {% if activity.imageUrl %}
+      <img src="{{ activity.imageUrl }}" alt="{{ activity.title }}" style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px;" />
+    {% endif %}
+
+    <h1 style="margin-top: 20px; font-size: 28px;">{{ activity.title }}</h1>
+    <p style="color: #666; font-size: 16px;">{{ activity.description }}</p>
+
+    <hr style="margin: 20px 0;" />
+
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; font-size: 15px;">
+      <div style="flex: 1;">
+        <strong>Lieu :</strong> {{ activity.location }}
+      </div>
+      <div style="flex: 1;">
+        <strong>Date :</strong>
+        {{ activity.startTime|date('d/m/Y H:i') }} – {{ activity.endTime|date('d/m/Y H:i') }}
+      </div>
+      <div style="flex: 1;">
+        <strong>Type :</strong>
+        {% if activity.outside %}
+          En extérieur
+        {% elseif activity.homeBased %}
+          À domicile
+        {% else %}
+          Non précisé
+        {% endif %}
+      </div>
+      <div style="flex: 1;">
+        <strong>Récurrence :</strong>
+        {{ activity.recurrence ?? 'Aucune' }}
+      </div>
+      <div style="flex: 1;">
+        <strong>Thème :</strong>
+        {{ activity.theme.name ?? 'Non précisé' }}
+      </div>
+      <div style="flex: 1;">
+        <strong>Professeur :</strong>
+        {{ activity.professorUser.Firstname ~ ' ' ~ activity.professorUser.Name }}
+      </div>
+    </div>
+
+    <hr style="margin: 20px 0;" />
+
+    <h3>Tarifs et disponibilités</h3>
+    <ul style="list-style: none; padding: 0;">
+      <li>
+        <strong>Tarif plein :</strong> {{ activity.fullcost|number_format(2, '.', ' ') }} € ({{ activity.remainingAvailabilityFullcost }}/{{ activity.availabilityFullcost }} places restantes)
+      </li>
+      {% if activity.discountedPrice is not null %}
+        <li>
+          <strong>Tarif réduit :</strong> {{ activity.discountedPrice|number_format(2, '.', ' ') }} € ({{ activity.remainingAvailabilityDiscountedPrice }}/{{ activity.availabilityDiscountedPrice }} places restantes)
+        </li>
+      {% endif %}
+    </ul>
+
+    {% if activity.specificNote %}
+      <hr style="margin: 20px 0;" />
+      <h3>Note spécifique</h3>
+      <p style="font-style: italic; color: #555;">{{ activity.specificNote }}</p>
+    {% endif %}
+
+    <div style="margin-top: 30px;">
+      <a href="{{ path('app_activities') }}" style="display: inline-block; background-color: #FF8C42; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none;">← Retour à la liste</a>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Profil du professeur
+{% endblock %}
+
+{% block body %}
+  <div style="max-width: 900px; margin: 2rem auto; padding: 2rem; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-family: Arial, sans-serif;">
+    <div style="display: flex; align-items: center; gap: 2rem;">
+      {% if professorUser.profilPicture %}
+        <img src="{{ asset('uploads/' ~ professorUser.profilPicture) }}" alt="Photo de profil" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 3px solid #FF8C42;" />
+      {% else %}
+        <div style="width: 140px; height: 140px; border-radius: 50%; background: #eee; display: flex; align-items: center; justify-content: center; font-size: 3rem;">👤</div>
+      {% endif %}
+
+      <div>
+        <h2 style="margin: 0;">{{ professorUser.firstname }} {{ professorUser.name }}</h2>
+        <p style="color: #666; margin: 0.2rem 0;">{{ professorUser.email }}</p>
+        <p style="color: #666;">📞 {{ professorUser.phone }}</p>
+      </div>
+    </div>
+
+    <hr style="margin: 2rem 0; border: none; border-top: 1px solid #ddd;" />
+
+    <h3 style="color: #FF8C42;">Présentation</h3>
+    <p>{{ professorUser.presentation }}</p>
+
+    <h3 style="color: #FF8C42; margin-top: 2rem;">Coordonnées</h3>
+    <p>🏢 {{ professorUser.adress }}, {{ professorUser.city }}</p>
+    <p>SIRET : {{ professorUser.companyIdentificationNumber }}</p>
+
+    <hr style="margin: 2rem 0; border: none; border-top: 1px solid #ddd;" />
+
+    <h3 style="color: #FF8C42;">Activités proposées</h3>
+    {% if (professorUser.activities|length) > 0 %}
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem;">
+        {% for activity in professorUser.activities %}
+          <div style="border: 1px solid #eee; border-radius: 8px; padding: 1rem; background-color: #fafafa;">
+            <h4 style="margin: 0 0 0.5rem 0;">{{ activity.title }}</h4>
+            <p style="margin: 0; font-size: 0.9rem;">📍 {{ activity.location }}</p>
+            <p style="margin: 0; font-size: 0.9rem;">🕒 {{ activity.startTime|date('d/m/Y H:i') }}</p>
+            <a href="{{ path('app_activities_show', { id: activity.id }) }}" style="display: inline-block; margin-top: 0.5rem; font-size: 0.9rem; color: #FF8C42;">Voir l'activité →</a>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>Aucune activité enregistrée pour ce professeur.</p>
+    {% endif %}
+  </div>
+{% endblock %}
